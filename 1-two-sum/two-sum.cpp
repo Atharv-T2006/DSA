@@ -11,8 +11,8 @@ public:
 
             if(mp.find(rem)!=mp.end())
             {
-                int j=mp[rem];
-                return {j,i};
+                
+                return {mp[rem],i};
             }
             mp[nums[i]]=i;
         }
