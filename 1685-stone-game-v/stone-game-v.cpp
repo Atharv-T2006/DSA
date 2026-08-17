@@ -3,46 +3,42 @@ public:
     int stoneGameV(vector<int>& stoneValue) {
         int n = stoneValue.size();
 
-        // Prefix sum
+      
         vector<int> prefix(n + 1, 0);
 
         for (int i = 0; i < n; i++) {
             prefix[i + 1] = prefix[i] + stoneValue[i];
         }
 
-        // dp[l][r] = maximum score Alice can get
-        // from subarray l to r
         vector<vector<int>> dp(n, vector<int>(n, 0));
 
-        // Length of current subarray
         for (int len = 2; len <= n; len++) {
 
             for (int l = 0; l + len - 1 < n; l++) {
 
                 int r = l + len - 1;
 
-                // Try every possible split
                 for (int k = l; k < r; k++) {
 
-                    int leftSum =
+                    int lSum =
                         prefix[k + 1] - prefix[l];
 
-                    int rightSum =
+                    int rSum =
                         prefix[r + 1] - prefix[k + 1];
 
-                    if (leftSum < rightSum) {
+                    if (lSum < rSum) {
 
                         dp[l][r] = max(
                             dp[l][r],
-                            leftSum + dp[l][k]
+                            lSum + dp[l][k]
                         );
 
                     }
-                    else if (leftSum > rightSum) {
+                    else if (lSum > rSum) {
 
                         dp[l][r] = max(
                             dp[l][r],
-                            rightSum + dp[k + 1][r]
+                            rSum + dp[k + 1][r]
                         );
 
                     }
@@ -50,7 +46,7 @@ public:
 
                         dp[l][r] = max(
                             dp[l][r],
-                            leftSum + max(
+                            lSum + max(
                                 dp[l][k],
                                 dp[k + 1][r]
                             )
